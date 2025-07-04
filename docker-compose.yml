@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  app:
+    # Constrói a imagem a partir do Dockerfile no diretório atual.
+    build: .
+    container_name: minha-fastapi-app
+    # Mapeia a porta 8000 do contêiner para a porta 8000 da máquina host.
+    ports:
+      - "8000:8000"
+    # Monta o diretório atual no diretório /app do contêiner.
+    # Isso permite que as alterações no código local sejam refletidas no contêiner.
+    # O banco de dados SQLite (escola.db) também será criado/salvo no seu diretório local.
+    volumes:
+      - .:/app
+    # Sobrescreve o comando padrão do Dockerfile para habilitar o --reload,
+    # que é ideal para o ambiente de desenvolvimento.
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
